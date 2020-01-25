@@ -69,60 +69,19 @@ const requireAuth = async (fn, targetUrl) => {
   return login(targetUrl);
 };
 
-// Will run when page finishes loading
+
+
 window.onload = async () => {
   await configureClient();
 
-  // If unable to parse the history hash, default to the root URL
-  if (!showContentFromUrl(window.location.pathname)) {
-    showContentFromUrl("/");
-    window.history.replaceState({ url: "/" }, {}, "/");
-  }
+  // NEW - update the UI state
+  updateUI();
+};
 
-  const bodyElement = document.getElementsByTagName("body")[0];
-
-  // Listen out for clicks on any hyperlink that navigates to a #/ URL
-  bodyElement.addEventListener("click", (e) => {
-    if (isRouteLink(e.target)) {
-      const url = e.target.getAttribute("href");
-
-      if (showContentFromUrl(url)) {
-        e.preventDefault();
-        window.history.pushState({ url }, {}, url);
-      }
-    }
-  });
-
+// NEW
+const updateUI = async () => {
   const isAuthenticated = await auth0.isAuthenticated();
 
-  if (isAuthenticated) {
-    console.log("> User is authenticated");
-    window.history.replaceState({}, document.title, window.location.pathname);
-    updateUI();
-    return;
-  }
-
-  console.log("> User not authenticated");
-
-  const query = window.location.search;
-  const shouldParseResult = query.includes("code=") && query.includes("state=");
-
-  if (shouldParseResult) {
-    console.log("> Parsing redirect");
-    try {
-      const result = await auth0.handleRedirectCallback();
-
-      if (result.appState && result.appState.targetUrl) {
-        showContentFromUrl(result.appState.targetUrl);
-      }
-
-      console.log("Logged in!");
-    } catch (err) {
-      console.log("Error parsing redirect:", err);
-    }
-
-    window.history.replaceState({}, document.title, "/");
-  }
-
-  updateUI();
+  document.getElementById("btn-logout").disabled = !isAuthenticated;
+  document.getElementById("btn-login").disabled = isAuthenticated;
 };
