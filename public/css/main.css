@@ -1,6 +1,11 @@
+* {
+	font-family: sans-serif;
+}
+
 .hidden {
   display: none;
 }
+
 label {
   margin-bottom: 10px;
   display: block;
@@ -8,13 +13,4 @@ label {
 
 .navbar {
   min-height: 115px;
-}
-
-.hidden {
-  display: none;
-}
-
-label {
-  margin-bottom: 10px;
-  display: block;
 }
