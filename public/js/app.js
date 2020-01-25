@@ -1,5 +1,10 @@
+
+import createAuth0Client from '@auth0/auth0-spa-js';
+
 // The Auth0 client, initialized in configureClient()
 let auth0 = null;
+
+
 
 /**
  * Starts the authentication flow
@@ -45,14 +50,20 @@ const fetchAuthConfig = () => fetch("/auth_config.json");
  * Initializes the Auth0 client
  */
 const configureClient = async () => {
+
   const response = await fetchAuthConfig();
   const config = await response.json();
 
-  auth0 = await createAuth0Client({
+  const auth0 = await createAuth0Client({
     domain: config.domain,
     client_id: config.clientId
   });
+
 };
+
+
+
+
 
 /**
  * Checks to see if the user is authenticated. If so, `fn` is executed. Otherwise, the user
