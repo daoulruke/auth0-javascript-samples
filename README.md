@@ -13,7 +13,7 @@ To specify the application client ID and domain, make a copy of `auth_config.jso
 ```json
 {
   "domain": "madmin.auth0.com",
-  "clientId": "f1qp1iD3HlgIUSwwd79EtVxhqG7k0PBA"
+  "clientId": "1I9iSqxsc1vDiE8SOzvAhRrvBUayQ4g2"
 }
 ```
 
